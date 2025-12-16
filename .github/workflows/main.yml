@@ -16,25 +16,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.11.6'
 
-      - name: Install uv
+      - name: Install package
         run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo PATH="$HOME:/.cargo/bin:$PATH"
-
-      - name: create virtual python environment
-        run: |
-          uv venv
-        
-      - name: install dependency
-        run: |
-          uv pip install .
+          pip install -r requirements.txt
 
       - name: Run main.py
         shell: bash
         run: |
-          source.venv/Scripts/activate
           python main.py
         env:
           TOKEN:  ${{secrets.TOKEN}}
