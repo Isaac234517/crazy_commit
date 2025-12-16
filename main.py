@@ -33,6 +33,7 @@ if __name__ == '__main__':
     repo.index.commit(commit_msg)
     remote = repo.remotes['origin']
     original_url = remote.url  
+    print(f"Original_URL: {original_url}")
     new_url = original_url.replace('https://github.com/', f'https://{token}@github.com/')
     remote.set_url(new_url) 
     remote.push()
