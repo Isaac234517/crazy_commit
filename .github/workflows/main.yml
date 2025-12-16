@@ -1,0 +1,41 @@
+name: Run main.py daily
+
+on:
+  schedule:
+    # Runs daily at 08:00 UTC. Adjust cron as needed for your timezone.
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          cache: "uv"
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo PATH="$HOME:/.cargo/bin:$PATH"
+
+      - name: create virtual python environment
+        run: |
+          uv venv
+        
+      - name: install dependency
+        run: |
+          uv pip install .
+
+      - name: Run main.py
+        shell: bash
+        run: |
+          source.venv/Scripts/activate
+          python main.py
+        env:
+          TOKEN:  ${{secrets.TOKEN}}
