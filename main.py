@@ -28,13 +28,15 @@ if __name__ == '__main__':
     print(f"Update complete: {data}")
 
     repo = git.Repo(os.getcwd())
+    with repo.config_writer() as cw:
+        cw.set_value("user", "name", "Isaac")
+        cw.set_value("user", "email", "Isaac234517@gmail.com")
+
     repo.index.add('update.json')
     commit_msg = f'Update json file. The last updatetime is {data["update_datetime"]}'
     repo.index.commit(commit_msg)
     remote = repo.remotes['origin']
     original_url = remote.url  
     new_url = original_url.replace('https://github.com/', f'https://{token}@github.com/')
-    print(f"new url: {new_url}")
     remote.set_url(new_url) 
-    print(f"remote url: {remote.url}")
-    remote.push()
+    remote.push(refspec=f"HEAD:{repo.active_branch.name}")
