@@ -28,9 +28,3 @@ jobs:
           python main.py
         env:
           TOKEN:  ${{secrets.TOKEN}}
-
-      - name: Push changes
-        env:
-          TOKEN:  ${{secrets.TOKEN}}
-        run: |
-          git push https://${TOKEN}@github.com/Isaac234517/crazy_commit
