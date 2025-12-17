@@ -39,4 +39,4 @@ if __name__ == '__main__':
     original_url = remote.url  
     new_url = original_url.replace('https://github.com/', f'https://x-access-token:{token}@github.com/')
     remote.set_url(new_url) 
-    remote.push("origin")
+    remote.push()
