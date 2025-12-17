@@ -12,6 +12,8 @@ if __name__ == '__main__':
         load_dotenv('.env')
     
     token = os.getenv('TOKEN')
+    if(token is None):
+        raise Exception("Github token cannot be none")
 
     if not (os.path.exists('./update.json')):
         with open('./update.json', 'w', encoding='utf-8') as f:
@@ -35,8 +37,9 @@ if __name__ == '__main__':
     repo.index.add('update.json')
     commit_msg = f'Update json file. The last updatetime is {data["update_datetime"]}'
     repo.index.commit(commit_msg)
-    remote = repo.remotes['origin']
-    original_url = remote.url  
-    new_url = original_url.replace('https://github.com/', f'https://x-access-token:{token}@github.com/')
-    remote.set_url(new_url) 
-    remote.push()
+    if(os.getenv("GITHUB_ACTIONS") != "true"):
+        remote = repo.remotes['origin']
+        original_url = remote.url  
+        new_url = original_url.replace('https://github.com/', f'https://{token}@github.com/')
+        remote.set_url(new_url) 
+        remote.push()
