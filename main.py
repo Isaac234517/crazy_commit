@@ -28,9 +28,10 @@ if __name__ == '__main__':
     print(f"Update complete: {data}")
 
     repo = git.Repo(os.getcwd())
-    # with repo.config_writer() as cw:
-    #     cw.set_value("user", "name", "Isaac")
-    #     cw.set_value("user", "email", "Isaac234517@gmail.com")
+    with repo.config_writer() as cw:
+        cw.set_value("user", "name", "Isaac")
+        cw.set_value("user", "email", "Isaac234517@gmail.com")
+        cw.release()
 
     repo.index.add('update.json')
     commit_msg = f'Update json file. The last updatetime is {data["update_datetime"]}'
